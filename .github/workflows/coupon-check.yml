@@ -8,6 +8,7 @@ on:
 jobs:
   check-coupon:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout repo
         uses: actions/checkout@v3
@@ -16,9 +17,13 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 18
+          cache: 'npm' # speeds up installs
 
       - name: Install dependencies
-        run: npm install
+        run: npm ci
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps
 
       - name: Run Playwright script
         run: node checkCoupon.js
